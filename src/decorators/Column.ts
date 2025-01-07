@@ -1,16 +1,18 @@
 import "reflect-metadata";
 
-type ColumnOptions<T> = {
+type AllowedDefaultTypes<T> = T extends string
+  ? string
+  : T extends number
+  ? number
+  : T extends boolean
+  ? boolean
+  : T extends Date
+  ? Date | "now()"
+  : never;
+
+type ColumnOptions<T = any> = {
   nullable?: boolean;
-  default?: T extends string
-    ? string
-    : T extends number
-    ? number
-    : T extends boolean
-    ? boolean
-    : T extends Date
-    ? Date | "now()"
-    : never;
+  default?: AllowedDefaultTypes<T>;
 };
 
 const typeMapping: Record<string, string> = {
@@ -40,34 +42,28 @@ function validateDefaultRuntime(
     );
   }
 }
-export function Column<T = any>(options?: ColumnOptions<T>) {
+
+// Декоратор @Column
+export function Column<T = any>(options: ColumnOptions<T> = {}) {
   return function (target: any, propertyKey: string): void {
+    if (!target.columns) target.columns = [];
+
     const tsType = Reflect.getMetadata("design:type", target, propertyKey);
-
-    if (!tsType) {
-      throw new Error(`Unable to determine type for property ${propertyKey}`);
-    }
-
-    const resolvedType = typeMapping[tsType.name];
+    const resolvedType = typeMapping[tsType?.name];
 
     if (!resolvedType) {
       throw new Error(
-        `Unsupported type: ${tsType.name} for property ${propertyKey}`
+        `Unsupported type: ${tsType?.name} for property ${propertyKey}`
       );
     }
 
-    // Валидация default
-    validateDefaultRuntime(resolvedType, options?.default, propertyKey);
-
-    if (!target.columns) {
-      target.columns = [];
-    }
+    validateDefaultRuntime(resolvedType, options.default, propertyKey);
 
     target.columns.push({
       name: propertyKey,
       type: resolvedType,
-      nullable: options?.nullable ?? false,
-      default: options?.default,
+      nullable: options.nullable ?? false,
+      default: options.default,
     });
   };
 }

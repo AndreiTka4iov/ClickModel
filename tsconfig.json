@@ -15,5 +15,6 @@
       "@decorators/*": ["src/decorators/*"]
     }
   },
-  "include": ["src/**/*", "tests/**/*"]
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules"]
 }

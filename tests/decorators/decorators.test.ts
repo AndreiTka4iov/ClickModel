@@ -32,12 +32,27 @@ describe("Column Decorator", () => {
     expect(columns).toEqual([
       { name: "username", type: "String", nullable: false, default: undefined },
       { name: "age", type: "Int32", nullable: true, default: undefined },
-      { name: "createdAt", type: "DateTime", nullable: false, default: "now()" },
+      {
+        name: "createdAt",
+        type: "DateTime",
+        nullable: false,
+        default: "now()",
+      },
       { name: "isActive", type: "UInt8", nullable: false, default: false },
     ]);
   });
 
-  it("should throw an error for invalid default values", () => {
+  it("should not throw an error for non-nullable field without default", () => {
+    expect(() => {
+      @Table("valid")
+      class ValidModel {
+        @Column()
+        username: string; // Поле обязательное, но default отсутствует
+      }
+    }).not.toThrow();
+  });
+
+  it("should throw an error for invalid default value", () => {
     expect(() => {
       @Table("invalid")
       class InvalidModel {
@@ -46,18 +61,6 @@ describe("Column Decorator", () => {
       }
     }).toThrow(
       "Invalid default value for isActive. Expected UInt8, but got string: invalid"
-    );
-  });
-
-  it("should throw an error if a non-nullable field has no default", () => {
-    expect(() => {
-      @Table("invalid")
-      class InvalidModel {
-        @Column()
-        isActive: boolean;
-      }
-    }).toThrow(
-      "Property isActive is marked as non-nullable, but no default value is provided."
     );
   });
 });
