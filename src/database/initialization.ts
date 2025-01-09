@@ -7,7 +7,7 @@ export class ClickModelInit {
   constructor() {}
 
   async connect(options: ConnectionOptions): Promise<void> {
-    if (this.client) return console.warn("Connection is already established.");
+    if (this.client) return;
 
     this.client = createClient({
       host: options.host,
@@ -15,15 +15,12 @@ export class ClickModelInit {
       password: options.password,
       database: options.database,
     });
-
-    console.log("Connection to ClickHouse established.");
   }
 
   async close(): Promise<void> {
-    if (!this.client) return console.warn("No active connection to close.");
+    if (!this.client) return;
 
     await this.client.close();
     this.client = null;
-    console.log("Connection to ClickHouse closed.");
   }
 }

@@ -3,7 +3,8 @@ module.exports = {
   testEnvironment: "node",
   moduleNameMapper: {
     "^src/(.*)$": "<rootDir>/src/$1",
-    "^@commands/(.*)$": "<rootDir>/src/commands/$1"
+    "^@decorators/(.*)$": "<rootDir>/src/decorators/$1",
+    "^@database/(.*)$": "<rootDir>/src/database/$1"
   },
   roots: ["<rootDir>/src", "<rootDir>/tests"],
 };
