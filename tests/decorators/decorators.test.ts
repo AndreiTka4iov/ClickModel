@@ -1,5 +1,4 @@
-import { Column } from "src/decorators/Column";
-import { Table } from "src/decorators/Table";
+import { Column, Table } from "src/decorators/index";
 
 describe("Table Decorator", () => {
   it("should assign the table name to the class prototype", () => {

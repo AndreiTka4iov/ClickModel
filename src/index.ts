@@ -1,3 +1,2 @@
-export * from "@decorators/Column";
-export * from "@decorators/Table";
+export * from "@decorators/index";
 export * from "@database/index";
