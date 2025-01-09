@@ -1,9 +1,5 @@
 # ClickModelInit
 
-`ClickModelInit` ...
-
----
-
 ## Installation
 
 Install the package via NPM:

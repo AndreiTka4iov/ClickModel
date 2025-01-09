@@ -43,7 +43,6 @@ function validateDefaultRuntime(
   }
 }
 
-// Декоратор @Column
 export function Column<T = any>(options: ColumnOptions<T> = {}) {
   return function (target: any, propertyKey: string): void {
     if (!target.columns) target.columns = [];
