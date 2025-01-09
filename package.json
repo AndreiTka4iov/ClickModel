@@ -1,6 +1,6 @@
 {
   "name": "clickmodel",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "ORM for ClickHouse",
   "repository": {
     "type": "git",
@@ -19,11 +19,11 @@
   ],
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "yarn clean && tsc",
+    "build": "npm run clean && tsc",
     "test": "jest",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
-    "prepare": "yarn build"
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@clickhouse/client": "^1.10.0",
@@ -31,6 +31,7 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
+    "@types/commander": "^2.12.5",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.5",
     "jest": "^29.7.0",
